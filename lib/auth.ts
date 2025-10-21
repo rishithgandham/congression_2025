@@ -1,10 +1,17 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/lib/db"; // your drizzle instance
+import { verification, account, user, session } from "./db/schema";
 
 export const auth = betterAuth({
     database: drizzleAdapter(db, {
         provider: "pg", // or "mysql", "sqlite"
+        schema: {
+            verification: verification,
+            account: account,
+            session: session,
+            user: user,
+        }
     }),
     socialProviders: {
         google: {
@@ -16,3 +23,5 @@ export const auth = betterAuth({
         enabled: true,
     },
 });
+
+export const { getSession, signInEmail, signUpEmail, signOut, signInSocial } = auth.api;

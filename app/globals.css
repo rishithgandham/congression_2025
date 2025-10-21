@@ -42,12 +42,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  width: 100vh;
-  height: 100vh;  
-}
+
 
 :root {
   --radius: 0.5rem;
@@ -123,6 +118,8 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply  text-foreground w-full h-full;
   }
 }
+
+

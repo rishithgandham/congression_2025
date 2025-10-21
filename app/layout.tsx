@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "flag-icons/css/flag-icons.min.css";
+import Navbar from "@/components/functional/navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,10 +27,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className='w-screen min-h-screen'>
+    <html lang="en" className=''>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased w-screen min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} font-sans`}
       >
+        <Navbar />
         {children}
       </body>
     </html>
