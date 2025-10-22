@@ -35,14 +35,14 @@ const languages = [
 export default async function Dashboard() {
 
 
-    const session = await getSession({
-        headers: await headers(),
-    });
+    // const session = await getSession({
+    //     headers: await headers(),
+    // });
 
-    // Check session status immediately and redirect if not authenticated
-    if (!session) {
-        redirect("/signin");
-    }
+    // // Check session status immediately and redirect if not authenticated
+    // if (!session) {
+    //     redirect("/signin");
+    // }
 
     return (
         <>

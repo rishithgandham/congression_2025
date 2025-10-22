@@ -70,6 +70,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
                         return signOut({
                             fetchOptions: {
                                 onSuccess: () => {
+                                    
                                     router.push("/signin")
                                 }
                             }

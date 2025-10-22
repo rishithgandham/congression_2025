@@ -1,7 +1,7 @@
 
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import "flag-icons/css/flag-icons.min.css";
 import Navbar from "@/components/functional/navbar";
@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className=''>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans`}
+        className={`${geistSans.variable} ${geistMono.variable}  font-sans`}
       >
         <Navbar />
         {children}

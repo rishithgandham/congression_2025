@@ -1,15 +1,14 @@
 'use client';
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from '../ui/button'
 import Link from 'next/link'
 import { UserDropdown } from './user-dropdown'
 import { getSession } from '@/lib/auth'
-import { headers } from 'next/headers'
 import { Languages } from 'lucide-react'
 import { useSession } from '@/lib/auth-client';
 import { NavbarSkeleton } from './navbar-skeleton';
-export default async function Navbar() {
+export default  function Navbar() {
 
 
     const { data: session, isPending } = useSession();
@@ -18,8 +17,9 @@ export default async function Navbar() {
         return <NavbarSkeleton />;
     }
 
-    if (!session) return null;
 
+
+    if (!session) return null;
 
     return (
         <>
