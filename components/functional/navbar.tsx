@@ -5,21 +5,23 @@ import { Button } from '../ui/button'
 import Link from 'next/link'
 import { UserDropdown } from './user-dropdown'
 import { getSession } from '@/lib/auth'
-import { Languages } from 'lucide-react'
+import { Bell, Languages, Moon } from 'lucide-react'
 import { useSession } from '@/lib/auth-client';
 import { NavbarSkeleton } from './navbar-skeleton';
 export default  function Navbar() {
 
 
     const { data: session, isPending } = useSession();
+    
 
     if (isPending) {
         return <NavbarSkeleton />;
     }
 
-
-
-    if (!session) return null;
+    if (!session) {
+        console.log('No session found, returning null');
+        return null;
+    }
 
     return (
         <>
@@ -47,6 +49,8 @@ export default  function Navbar() {
                             </Button>
                         </div>
                         <div className='flex items-center justify-end'>
+                            <Moon className='h-3 w-3 ' />
+                            <Bell className='h-3 w-3 ml-3 mr-5' />
                             <UserDropdown user={session.user} />
                         </div>
 

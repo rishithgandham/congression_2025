@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className=''>
       <body
-        className={`${geistSans.variable} ${geistMono.variable}  font-sans`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-background font-sans`}
       >
         <Navbar />
         {children}

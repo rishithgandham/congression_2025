@@ -2,11 +2,16 @@
 
 import DashboardLanguageButton from '@/components/functional/dashboard_language_button'
 import { useSession } from '@/lib/auth-client'
-    import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import React from 'react'
-import { Loader2 } from 'lucide-react'
+import { BookText, Loader2 } from 'lucide-react'
 import { headers } from 'next/headers'
 import { getSession } from '@/lib/auth'
+import Link from 'next/link'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import { Languages } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import SelectExercise from '@/components/functional/select-exercise'
 
 
 const languages = [
@@ -35,32 +40,41 @@ const languages = [
 export default async function Dashboard() {
 
 
-    // const session = await getSession({
-    //     headers: await headers(),
-    // });
+    const session = await getSession({
+        headers: await headers(),
+    });
 
-    // // Check session status immediately and redirect if not authenticated
-    // if (!session) {
-    //     redirect("/signin");
-    // }
+    console.log(session);
+
+    // Check session status immediately and redirect if not authenticated
+    if (!session) {
+        redirect("/signin");
+    }
 
     return (
         <>
             <div className='w-full min-h-screen flex justify-center'>
-                <main className='container pt-15 '>
-                    <p className='text-4xl font-bold'>Dashboard</p>
-                    <p className='text-lg text-muted-foreground'>Welcome, Rishith. What language would you like to learn today?</p>
+                <main className='container pt-10 '>
+                    {/* <p className='text-4xl font-bold'>Dashboard</p>
+                    <p className='text-lg text-muted-foreground'>Welcome, Rishith. How would you like to practice today?</p> */}
 
-                    <div className='flex flex-row flex-wrap justify-start mt-5 gap-4'>
+                    {/* <div className='flex flex-row flex-wrap justify-start mt-5 gap-4'>
                         {languages.map((language) => (
                             <DashboardLanguageButton key={language.name} name={language.name} flag={language.flag} />
                         ))}
+                    </div> */}
+
+                    <div className="mb-8">
+                        <h1 className="text-4xl font-bold text-foreground mb-2 text-balance">Welcome, {session?.user?.name.split(" ")[0]} </h1>
+                        <p className="text-muted-foreground text-lg">Select how you'd like to practice today</p>
                     </div>
+
+                    <SelectExercise />
 
 
                     <div className='mt-10'>
                         <p className='text-xl font-bold mb-4'>Your recent activity</p>
-                        <div className='bg-white border border-gray-200 rounded-lg overflow-hidden'>
+                        <div className='bg-card border border-gray-200 rounded-lg overflow-hidden'>
                             <div className='overflow-x-auto'>
                                 <table className='w-full'>
                                     <thead className='bg-background'>
