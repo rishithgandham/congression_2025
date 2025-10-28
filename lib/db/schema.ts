@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, integer } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -56,6 +56,26 @@ export const verification = pgTable("verification", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
+
+
+export const completedExercises = pgTable("completed_exercises", {
+  id: text("id").primaryKey(),
+  date: timestamp("date").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  exerciseType: text("exercise_type").notNull(),
+  baseLanguage: text("base_language").notNull(),
+  targetLanguage: text("target_language").notNull(),
+  difficulty: text("difficulty").notNull(),
+  questions: integer("questions").notNull(),
+  score: integer("score").notNull(),
+  elapsedTime: integer("elapsed_time").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
 });

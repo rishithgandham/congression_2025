@@ -2,6 +2,10 @@
 
 import { openai } from '@/lib/openai/client';
 import { createExercisePrompt, SYSTEM_PROMPT, createGradingPrompt, GRADING_SYSTEM_PROMPT } from '@/lib/prompts/exercise-prompts';
+import { db } from '../db';
+import { completedExercises } from '../db/schema';
+import { auth } from '../auth';
+import { headers } from 'next/headers';
 
 
 
@@ -63,11 +67,6 @@ export async function generateTranslationExercises(
 export type TranslationFeedback = {
   score: number;
   isCorrect: boolean;
-  phrases: {
-    userPhrase:  string;
-    correctPhrase: string;
-    explanation: string;
-  }[];
   overallFeedback: string;
 }
 export async function gradeTranslation(question: TranslationQuestion, userAnswer: string): Promise<{ feedback: TranslationFeedback, error: string | null }>  {
@@ -97,7 +96,6 @@ export async function gradeTranslation(question: TranslationQuestion, userAnswer
     // Validate the response structure
     if (typeof feedback.score !== 'number' || 
         typeof feedback.isCorrect !== 'boolean' || 
-        !Array.isArray(feedback.phrases) || 
         typeof feedback.overallFeedback !== 'string') {
       return { feedback: {} as TranslationFeedback, error: 'Invalid response format from OpenAI' };
     }
@@ -107,4 +105,36 @@ export async function gradeTranslation(question: TranslationQuestion, userAnswer
     return { feedback, error: null };
 
     
+}
+
+
+
+export async function saveCompletedTranslationExercise({ baseLanguage, targetLanguage, difficulty, questions, score, elapsedTime, userId }: { baseLanguage: string, targetLanguage: string, difficulty: string, questions: number, score: number, elapsedTime: number, userId: string }): Promise<{ error: string | null }> {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || !(session.user.id === userId)) return { error: 'Unauthorized' };
+
+
+
+
+    await db.insert(completedExercises).values({
+      id: crypto.randomUUID(),
+      baseLanguage,
+      targetLanguage,
+      difficulty,
+      questions,
+      score,
+      elapsedTime,
+      date: new Date(),
+      userId,
+      exerciseType: 'translation',
+    });
+    return { error: null };
+  } catch (error) {
+    console.error('Error saving exercise:', error);
+    return { error: 'Failed to save exercise' };
+  }
 }

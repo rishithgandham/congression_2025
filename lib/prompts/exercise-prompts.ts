@@ -87,13 +87,6 @@ RESPONSE FORMAT (return as JSON):
 {
   "score": 85,
   "isCorrect": true,
-  "phrases": [
-    {
-      "userPhrase": "student's phrase here",
-      "correctPhrase": "correct phrase here", 
-      "explanation": "explanation of the difference"
-    }
-  ],
   "overallFeedback": "Overall assessment of the translation with specific suggestions for improvement"
 }
 

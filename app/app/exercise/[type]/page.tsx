@@ -6,6 +6,8 @@ import { use } from 'react';
 import TranslationPractice from '@/components/functional/translation_exercise';
 import { generateTranslationExercises, TranslationQuestion } from '@/lib/actions/exercises';
 import TranslationExercise from '@/components/functional/translation_exercise';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
 export default async function ExercisePage({
     params,
@@ -17,60 +19,40 @@ export default async function ExercisePage({
     const { type: exerciseType } = await params;
     const { baseLanguage, targetLanguage, difficulty } = await searchParams;
 
-    const { exercises, error } = await generateTranslationExercises(
-        baseLanguage,
-        targetLanguage,
-        difficulty,
-        5
-    );
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    console.log(session?.user.id);
+
+    // const { exercises, error } = await generateTranslationExercises(
+    //     baseLanguage,
+    //     targetLanguage,
+    //     difficulty,
+    //     5
+    // );
 
     // create some mock exercises
     const mockExercises: TranslationQuestion[] = [
+
         {
             id: 1,
-            baseLanguage: 'English',
-            targetLanguage: 'Spanish',
-            sentence: 'Hello, how are you?',
-            correctAnswer: 'Hola, ¿cómo estás?',
-            difficulty: 'easy',
-            category: 'greetings',
+            baseLanguage: 'Spanish',
+            targetLanguage: 'English',
+            sentence: 'Mi hermana siempre se lleva mi ropa sin pedir permiso.',
+            correctAnswer: 'My sister always takes my clothes without asking for permission.',
+            difficulty: 'medium',
+            category: 'daily life'
         },
         {
             id: 2,
-            baseLanguage: 'English',
-            targetLanguage: 'Spanish',
-            sentence: 'I love learning new languages.',
-            correctAnswer: 'Me encanta aprender nuevos idiomas.',
+            baseLanguage: 'Spanish',
+            targetLanguage: 'English',
+            sentence: 'Estoy emocionado por nuestro viaje a la playa este fin de semana.',
+            correctAnswer: "I'm excited about our trip to the beach this weekend.",
             difficulty: 'medium',
-            category: 'general',
+            category: 'travel'
         },
-        {
-            id: 3,
-            baseLanguage: 'English',
-            targetLanguage: 'Spanish',
-            sentence: 'Where is the nearest library?',
-            correctAnswer: '¿Dónde está la biblioteca más cercana?',
-            difficulty: 'hard',
-            category: 'general',
-        },
-        {
-            id: 4,
-            baseLanguage: 'English',
-            targetLanguage: 'Spanish',
-            sentence: 'Can you help me with this?',
-            correctAnswer: '¿Puedes ayudarme con esto?',
-            difficulty: 'easy',
-            category: 'general',
-        },
-        {
-            id: 5,
-            baseLanguage: 'English',
-            targetLanguage: 'Spanish',
-            sentence: 'Thank you very much for your time.',
-            correctAnswer: 'Muchas gracias por tu tiempo.',
-            difficulty: 'medium',
-            category: 'general',
-        },
+
     ];
 
 
@@ -95,12 +77,12 @@ export default async function ExercisePage({
                 </p>
             </div>
 
-            <TranslationExercise questions={exercises}
+            <TranslationExercise questions={mockExercises}
                 exerciseType={exerciseType}
                 baseLanguage={baseLanguage}
                 targetLanguage={targetLanguage}
                 difficulty={difficulty}
-
+                userId={session?.user?.id ?? ''}
             />
         </div>
     );
