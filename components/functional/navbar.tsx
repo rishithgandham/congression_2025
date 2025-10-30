@@ -8,6 +8,13 @@ import { getSession } from '@/lib/auth'
 import { Bell, Languages, Moon } from 'lucide-react'
 import { useSession } from '@/lib/auth-client';
 import { NavbarSkeleton } from './navbar-skeleton';
+import { Instrument_Sans } from 'next/font/google';
+
+const instrumentSans = Instrument_Sans({
+    variable: "--font-instrument-sans",
+    subsets: ["latin"],
+});
+
 export default  function Navbar() {
 
 
@@ -29,7 +36,10 @@ export default  function Navbar() {
                 <div className='container mx-auto h-full'>
                     <div className="grid grid-cols-2 w-full h-full">
                         <div className='flex items-center justify-start'>
-                            <Languages className='h-4 w-4 ml-2 mr-4' />
+                            <Languages className='h-5 w-5 ml-2 mr-2' />
+                            <Link href="/app/dashboard" className={`text-lg ${instrumentSans.className} font-semibold mr-4`}>
+                                Literaid
+                            </Link>
                             <Button variant="link" size="sm">
                                 <Link href="/app/dashboard">
                                     Dashboard

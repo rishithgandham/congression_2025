@@ -25,11 +25,6 @@ const instrumentSans = Instrument_Sans({
     subsets: ["latin"],
 });
 
-const instrumentSerif = Instrument_Serif({
-    weight: ["400"],
-    style: "normal",
-});
-
 
 export default function SignIn() {
    
